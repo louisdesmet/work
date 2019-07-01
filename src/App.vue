@@ -1,29 +1,69 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
-</template>
+  <v-app>
+    <v-toolbar color="#3083A7" dark height="80px">
+      <v-toolbar-title><img class="logo" src="@/assets/logo.png"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-side-icon  @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat to="/home"><v-icon left dark small>home</v-icon>Dashboard</v-btn>
+       <!-- <v-btn flat to="/clients"><v-icon left dark small>{{ menu.clients.icon }}</v-icon>Clients</v-btn>
+        <v-btn flat to="/services"><v-icon left dark small>{{ menu.services.icon }}</v-icon>Services</v-btn>
+        <v-btn flat to="/domains"><v-icon left dark small>{{ menu.domeinen.icon }}</v-icon>Domains</v-btn>
+        <v-btn flat to="/licenses"><v-icon left dark small>{{ menu.licenties.icon }}</v-icon>Licenses</v-btn>
+        <v-btn flat to="/reports"><v-icon left dark small>{{ menu.rapporten.icon }}</v-icon>Reports</v-btn>-->
+        <v-btn flat to="/cart">
+          <v-badge overlap top left color="red">
+            <span slot="badge">{{ cartCount }}</span>
+            <v-avatar size="40" color="#6A9F59">
+              <v-icon small>shopping_cart</v-icon>
+            </v-avatar>
+          </v-badge>
+        </v-btn>
+      </v-toolbar-items>
+      <!--<v-btn-->
+        <!--flat-->
+        <!--href="https://github.com/vuetifyjs/vuetify/releases/latest"-->
+        <!--target="_blank"-->
+      <!--&gt;-->
+        <!--<span class="mr-2">Latest Release</span>-->
+      <!--</v-btn>-->
+    </v-toolbar>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+  </v-app>
+</template>
+<script>
+export default {
+  name: 'App',
+  data () {
+    return {
+      menu: {
+        "home": { text: 'Home', icon: 'home' },
+        "clients": { text: 'Clients', icon: 'accessibility_new' },
+        "services": { text: 'Services', icon: 'list_alt' },
+        "domeinen": { text: 'Domeinen', icon: 'view_list' },
+        "licenties": { text: 'Licenties', icon: 'calendar_today' },
+        "rapporten": { text: 'Rapporten', icon: 'assignment' }
+      },
+      cartCount: 0
     }
-  }
+  },
+  watch: {
+    cartCount: function() {
+      if(JSON.parse(localStorage.getItem('cart')) != null) {
+        return JSON.parse(localStorage.getItem('cart')).length;
+      } else {
+        return 0;
+      }
+    }
+  },
 }
+</script>
+<style scoped>
+  .logo {
+    width: 110px;
+    margin: 5px 0 0 38px;
+  }
 </style>
