@@ -11,16 +11,16 @@
             </v-toolbar-items>
         </v-toolbar>
         <v-container>
-            <v-text-field v-model="form.first_name" :counter="25" label="First name" required></v-text-field>
-            <v-text-field v-model="form.last_name" :counter="25" label="Last name" required></v-text-field>
-            <v-text-field v-model="form.company" :counter="25" label="Company name" required></v-text-field>
-            <v-text-field v-model="form.address" :counter="25" label="Address" required></v-text-field>
-            <v-text-field v-model="form.postal_code" :counter="25" label="Postal code" required></v-text-field>
-            <v-text-field v-model="form.city" :counter="25" label="City" required></v-text-field>
-            <v-text-field v-model="form.country" :counter="25" label="Country" required></v-text-field>
-            <v-text-field v-model="form.phonenumber" :counter="25" label="Phonenumber" required></v-text-field>
-            <v-text-field v-model="form.email" label="email" required></v-text-field>
-            <v-text-field v-model="form.password" label="password" required></v-text-field>
+            <v-text-field v-model="form.first_name" :counter="40" :label="$t('form.firstname') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.last_name" :counter="40" :label="$t('form.lastname') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.company" :counter="25" :label="$t('form.company_name')" required></v-text-field>
+            <v-text-field v-model="form.address" :counter="25" :label="$t('form.address') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.postal_code" :counter="10" :label="$t('form.postal_code') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.city" :counter="25" :label="$t('form.city') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.country" :counter="25" :label="$t('form.country') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.phonenumber" :counter="25" :label="$t('form.phonenumber') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.email" :label="$t('form.email') + ' *'" required></v-text-field>
+            <v-text-field v-model="form.password" :label="$t('form.password')" required></v-text-field>
             <!--<v-text-field v-model="form.vat" label="VAT number" required></v-text-field>-->
             <v-radio-group v-model="form.enduser" :mandatory="false">
                 <v-radio label="Partner beheert alles van de klant. Factuur naar de partner." value="0"></v-radio>

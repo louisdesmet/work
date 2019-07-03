@@ -1,9 +1,21 @@
 <template>
     <v-flex sm4 md3 lg2 class="client-nav">
         <div class="client-nav-container">
-            <div class="selected-client">
-                <p>Geselecteerde klant</p>
-                <p>{{ (enduser) ? enduser.name : user.user.name}}</p>
+            <div class="body-2 selected-client">
+                <p class="center pt-3">Geselecteerde klant</p>
+                <p class="body-2 center pt-2">{{ isEnduser.name }} <span v-if="isEnduser.company !== ''"> - {{ isEnduser.company }}</span>&nbsp;<v-icon dark small>create</v-icon></p>
+                <p class="pl-2 pt-2">{{ isEnduser.address + ', ' + isEnduser.postal_code + ' ' +  isEnduser.city }}</p>
+                <p class="pl-2 pt-1">{{ isEnduser.email }}</p>
+                <p class="pl-2 pt-1 pb-3" v-if="isEnduser.phonenumber !== ''">{{ isEnduser.phonenumber }}</p>
+                <v-tooltip bottom v-else>
+                    <template v-slot:activator="{ on }">
+                        <v-icon v-on="on">error_outline</v-icon>
+                    </template>
+                    <span>Phonenumber was not provided.</span>
+                </v-tooltip>
+                <!--<p>{{ selectedUser.customfields[2].value }}</p>-->
+
+
             </div>
             <div class="new-client" @click="create">
                 <v-btn color="#6A9F59" dark small fab>
@@ -15,23 +27,31 @@
             <v-card class="mt-3">
                 <v-list two-line dark dense class="pa-0">
                     <template v-for="(item, index) in users">
-                        <div v-if="search === null"  class="mb-1">
+                        <div v-if="search === null">
                             <v-list-tile :key="item.id" avatar @click="showUser(item)" class="client">
                                 <v-list-tile-content>
-                                    <v-list-tile-title>
-                                        <p>{{ item.name }}<span style="text-align: right">{{ item.id }}</span></p>
-                                    </v-list-tile-title>
-                                    <p v-if="item.company !== ''">{{ item.company }}</p>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on }">
+                                            <v-list-tile-title v-on="on">{{ item.name }} <span v-if="item.company !== ''"> - {{ item.company }}</span></v-list-tile-title>
+                                        </template>
+                                        <span>{{ item.name }} <span v-if="item.company !== ''"> - {{ item.company }}</span> - {{ item.id }}</span>
+                                    </v-tooltip>
+                                    <v-divider></v-divider>
                                 </v-list-tile-content>
                             </v-list-tile>
                         </div>
                         <div v-if="search !== null">
-                            <v-list-tile :key="item.id" avatar v-if="isIn(item.name)" @click="showUser(item)" class="client">
+                            <v-list-tile :key="item.id" avatar v-if="isIn(item)" @click="showUser(item)" class="client">
                                 <v-list-tile-content>
                                     <v-list-tile-title>
-                                        <p>{{ item.name }}</p>
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on }">
+                                                <v-list-tile-title v-on="on">{{ item.name }} <span v-if="item.company !== ''"> - {{ item.company }}</span></v-list-tile-title>
+                                            </template>
+                                            <span>{{ item.name }} <span v-if="item.company !== ''"> - {{ item.company }}</span> - {{ item.id }}</span>
+                                        </v-tooltip>
+                                        <v-divider></v-divider>
                                     </v-list-tile-title>
-                                    <p v-if="item.company !== ''">{{ item.company }}</p>
                                 </v-list-tile-content>
                             </v-list-tile>
                         </div>
@@ -55,6 +75,10 @@
     computed: {
         users() { return this.$store.getters.users; },
         enduser() { return this.$store.getters.enduser; },
+        isEnduser() {
+            console.log(this.user.user);
+            return (this.enduser) ? this.enduser : this.user.user; }
+
     },
     mounted () {
         this.$store.dispatch('user');
@@ -70,7 +94,7 @@
             this.$store.dispatch('userProducts');
         },
         isIn(item) {
-            return item.toLowerCase().indexOf(this.search) >= 0;
+            return item.name.toLowerCase().indexOf(this.search) >= 0 || item.company.toLowerCase().indexOf(this.search) >= 0;
         }
     }
   }
@@ -90,10 +114,9 @@
     }
     .client-nav .selected-client p {
         color: white;
-        text-align: center;
         font-size: 0.8em;
-        padding: 10px 0;
         margin: 0;
+
     }
     .client-nav .new-client {
         border-top: 1px solid grey;
@@ -111,5 +134,9 @@
 
     .client {
         border-bottom: 1px solid #808080;
+    }
+
+    .center {
+        text-align: center;
     }
 </style>

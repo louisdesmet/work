@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-toolbar color="#3083A7" dark height="80px">
-      <v-toolbar-title><img class="logo" src="@/assets/logo.png"></v-toolbar-title>
+      <v-toolbar-title><router-link to="/home"><img class="logo" src="@/assets/logo.png"></router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-side-icon  @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
       <v-toolbar-items class="hidden-sm-and-down">
@@ -20,13 +20,13 @@
           </v-badge>
         </v-btn>
       </v-toolbar-items>
-      <!--<v-btn-->
-        <!--flat-->
-        <!--href="https://github.com/vuetifyjs/vuetify/releases/latest"-->
-        <!--target="_blank"-->
-      <!--&gt;-->
-        <!--<span class="mr-2">Latest Release</span>-->
-      <!--</v-btn>-->
+      <v-select
+              class="lang"
+              :items="langs"
+              v-model="$i18n.locale"
+              dense
+              hide-details
+      ></v-select>
     </v-toolbar>
 
     <v-content>
@@ -39,15 +39,8 @@ export default {
   name: 'App',
   data () {
     return {
-      menu: {
-        "home": { text: 'Home', icon: 'home' },
-        "clients": { text: 'Clients', icon: 'accessibility_new' },
-        "services": { text: 'Services', icon: 'list_alt' },
-        "domeinen": { text: 'Domeinen', icon: 'view_list' },
-        "licenties": { text: 'Licenties', icon: 'calendar_today' },
-        "rapporten": { text: 'Rapporten', icon: 'assignment' }
-      },
-      cartCount: 0
+      cartCount: 0,
+      langs: ['nl', 'en']
     }
   },
   watch: {
@@ -65,5 +58,11 @@ export default {
   .logo {
     width: 110px;
     margin: 5px 0 0 38px;
+  }
+  .lang {
+    max-width: 50px;
+    padding: 0;
+    position: relative;
+    top: -5px;
   }
 </style>
